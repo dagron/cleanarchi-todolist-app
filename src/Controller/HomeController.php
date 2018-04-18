@@ -10,6 +10,7 @@ class HomeController extends Controller
 {
     /**
      * @Route("/", name="home")
+     * @return Response
      */
     public function index()
     {

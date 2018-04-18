@@ -1,6 +1,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    locale: 'en'
 
 services:
     # default configuration for services in *this* file
@@ -23,5 +24,19 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    # ----------------------------------
+    #   TodoList Domain Configuration
+    # ----------------------------------
+    #
+    # Tell which implementation we'd like to use
+    # --
+    TodoList\Domain\Repository\TodoListRepositoryInterface: '@App\Repository\TodoListRepository'
+    TodoList\Domain\Repository\TaskRepositoryInterface: '@App\Repository\TaskRepository'
+
+    # Make our UseCases public so we can use them in our Controllers
+    TodoList\Domain\UseCase\:
+        resource: '../vendor/clean-archi/todolist-domain/src/TodoList/UseCase'
+        public: true
+    # ----------------------------------
+    # EOF TodoList :)
+    # ----------------------------------

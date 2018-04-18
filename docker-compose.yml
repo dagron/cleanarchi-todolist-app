@@ -11,7 +11,8 @@
 version: "2.1"
 services:
     web:
-        image: klabs/apache:7.1
+        build:
+            context: docker/apache
         hostname: web
         container_name: todolist_web
         ports:
@@ -19,7 +20,7 @@ services:
         volumes:
             - "./docker/apache/004-dynamic-vhost.conf:/etc/apache2/sites-available/004-dynamic-vhost.conf"
             - "./docker/apache/ez5-common.conf:/etc/apache2/sites-available/ez5-common.conf"
-            - "${PROJECT_PATH}:/var/www/${PROJECT_NAME}:rw"
+            - "${PROJECT_PATH}:/var/www:rw"
         cap_add:
             - SYS_PTRACE
         environment:
@@ -27,9 +28,12 @@ services:
             - DEV_GID=${DEV_GID}
         networks:
             - default
+        depends_on:
+            - memcached
 
     cli:
-        image: klabs/php_cli:7.1
+        build:
+            context: docker/php
         hostname: cli
         container_name: todolist_cli
         privileged: true
@@ -38,10 +42,21 @@ services:
             - "$SSH_AUTH_SOCK:/ssh-agent:ro"
             - "~/.gitconfig:/home/site/.gitconfig:ro"
             - "~/.ssh/config:/home/site/.ssh/config:ro"
-            - "${PROJECT_PATH}:/var/www/${PROJECT_NAME}:rw"
+            - "${PROJECT_PATH}:/var/www:rw"
         environment:
             - SSH_AUTH_SOCK=/ssh-agent
             - TERM=xterm-color
+        cap_add:
+            - SYS_PTRACE
+        networks:
+            - default
+        depends_on:
+            - memcached
+
+    memcached:
+        image: klabs/memcached
+        hostname:  memcached
+        container_name: csa_memcached
         cap_add:
             - SYS_PTRACE
         networks:
