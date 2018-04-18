@@ -74,9 +74,21 @@ class TodoListRepository implements TodoListRepositoryInterface
         return true;
     }
 
+    /**
+     * @param string $title
+     * @return TodoListInterface
+     * @throws TodoListNotFoundException
+     */
     public function findByTitle(string $title): TodoListInterface
     {
-        // TODO: Implement findByTitle() method.
+        $todolist = $this->em->getRepository(TodoList::class)
+            ->findOneBy(array('title' => $title));
+
+        if (null === $todolist) {
+            throw TodoListNotFoundException::factoryByTitle($title);
+        }
+
+        return $todolist;
     }
 
     /**

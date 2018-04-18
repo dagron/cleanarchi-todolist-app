@@ -3,14 +3,12 @@
 {% block title %}TodoList Application!{% endblock %}
 
 {% block body %}
-    <!-- .container is main centered wrapper -->
     <div class="container" id="app">
         <div class="row">
             <div class="twelve columns">
                 <a @click="showModal = true" class="button button-primary u-pull-right" href="#">New TodoList</a>
                 <h1>TodoLists</h1>
 
-                <!-- use the modal component, pass in the prop -->
                 <modal v-if="showModal" @close="showModal = false" form-url="{{ path('list_create') }}">
                     <h5 slot="header">Create a TodoList</h5>
                 </modal>

@@ -32,7 +32,7 @@ class TodoList extends AbstractTodoList
      *
      * @var string
      */
-    protected $title;
+    protected $title = "";
 
     /**
      * @ORM\OneToMany(targetEntity="Task", mappedBy="todolist", cascade={"persist", "remove", "refresh"}, orphanRemoval=true)

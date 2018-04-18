@@ -16,9 +16,9 @@
 }
 
 .modal-container {
-  width: 300px;
+  width: 400px;
   margin: 0px auto;
-  padding: 20px 30px;
+  padding: 20px 30px 2px 20px;
   background-color: #fff;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
@@ -60,4 +60,27 @@
 .modal-leave-active .modal-container {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
+}
+
+
+div.alert {
+  display: block;
+  padding: 10px 15px;
+  background-color: #eee;
+  color: #666;
+}
+
+div.alert h6 {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+div.alert p {
+  margin-bottom: 0px;
+}
+
+div.alert.error {
+  background-color: #f77570;
+  border-color: #c65e5a;
+  color: #904642;
 }
