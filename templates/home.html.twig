@@ -3,12 +3,44 @@
 {% block title %}TodoList Application!{% endblock %}
 
 {% block body %}
+    <!-- template for the modal component -->
+    <script type="text/x-template" id="modal-template">
+        <transition name="modal">
+            <div class="modal-mask">
+                <div class="modal-wrapper">
+                    <div class="modal-container">
+                        <div class="modal-header">
+                            <slot name="header"></slot>
+                        </div>
+
+                        <div class="modal-body">
+                            <slot name="body"></slot>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </transition>
+    </script>
+
     <!-- .container is main centered wrapper -->
-    <div class="container">
+    <div class="container" id="app">
         <div class="row">
             <div class="twelve columns">
-                <a class="button button-primary u-pull-right" href="#">New TodoList</a>
+                <a @click="showModal = true" class="button button-primary u-pull-right" href="#">New TodoList</a>
                 <h1>TodoLists</h1>
+
+                <!-- use the modal component, pass in the prop -->
+                <modal v-if="showModal" @close="showModal = false">
+                    <h5 slot="header">Create a TodoList</h5>
+                    <div slot="body">
+                        <form action="{{ path('list_create') }}" method="post">
+                            <label for="create-title">Title</label>
+                            <input class="u-full-width" id="create-title" name="title" type="text" required />
+                            <button class="button" v-on:click.prevent="this.$emit('close')">Cancel</button>
+                            <input class="button-primary" type="submit" value="Submit">
+                        </form>
+                    </div>
+                </modal>
             </div>
         </div>
     </div>
