@@ -1,6 +1,6 @@
 <template>
     <transition name="modal">
-        <div class="modal-mask"">
+        <div class="modal-mask">
             <div class="modal-wrapper">
                 <div class="modal-container">
                     <div class="modal-header">
@@ -47,7 +47,7 @@ export default {
         close () {
             this.$emit('close')
         },
-        submit () {
+        submit: function () {
             this.errorMessage = null;
             this.alertMessage = 'Please wait...';
             this.disabled = true;
@@ -61,13 +61,15 @@ export default {
                 this.disabled = false;
                 if (response.ok === false) {
                     this.alertMessage = null;
-                    if(contentType && contentType.indexOf("application/json") !== -1) {
+                    if (contentType && contentType.indexOf("application/json") !== -1) {
                         return response.json().then((json) => {
-                            this.errorMessage = json.errors.join(', ')
+                            this.errorMessage = json.errors.join(', ');
+                            document.querySelector('#createTitle').focus()
                         })
                     }
 
-                    this.errorMessage = response.statusText
+                    this.errorMessage = response.statusText;
+                    document.querySelector('#createTitle').focus();
                     return
                 }
 
@@ -84,6 +86,7 @@ export default {
                 this.disabled = false;
                 this.alertMessage = null;
                 this.errorMessage = 'Something bad happened with fetch()';
+                document.querySelector('#createTitle').focus()
             })
         }
     },
