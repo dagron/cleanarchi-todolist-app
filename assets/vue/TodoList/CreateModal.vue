@@ -55,7 +55,7 @@ export default {
 
             fetch(form.getAttribute('action'), {
                 method: 'post',
-                body: new FormData(form)
+                body: new URLSearchParams(new FormData(form))
             }).then((response) => {
                 var contentType = response.headers.get("content-type");
                 this.disabled = false;

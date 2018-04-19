@@ -49,7 +49,10 @@ class ListController extends Controller
      */
     public function create(Request $request, CreateListUseCase $createListUseCase)
     {
-        $form = $this->createFormBuilder($todolist = new TodoList())
+        $form = $this->createFormBuilder(new TodoList(), [
+            'method' => 'POST',
+            'block_name' => ''
+        ])
             ->add('title', TextType::class)
             ->getForm();
 
@@ -66,7 +69,10 @@ class ListController extends Controller
             return new JsonResponse($data, 417); // expectation failed
         }
 
+        dump($form->getData());
+
         try {
+            $todolist = $form->getData();
             $createResponse = $createListUseCase->execute(new CreateListRequest($todolist->getTitle()));
             $data['success'] = true;
             $data['list'] = $createResponse->getTodoList();
