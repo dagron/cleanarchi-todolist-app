@@ -3,7 +3,7 @@
 {% block title %}TodoList Application!{% endblock %}
 
 {% block body %}
-    <div class="container" id="app">
+    <div class="container" id="app" data-url-lists="{{ path('list_all') }}">
         <div class="row">
             <div class="twelve columns">
                 <a @click="showModal = true" class="button button-primary u-pull-right" href="#">New TodoList</a>
@@ -13,6 +13,15 @@
                     <h5 slot="header">Create a TodoList</h5>
                 </modal>
             </div>
+        </div>
+
+        <div class="row">
+            <ul class="todolists twelve columns">
+                <todo-list v-for="list in todoLists"
+                           v-bind:key="list.id"
+                           v-bind:list="list"
+                />
+            </ul>
         </div>
     </div>
 {% endblock %}

@@ -11,10 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class TodoList
  * @package App\Entity
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="TodoListRepository")
  * @ORM\Table(name="todolist_list")
  */
-class TodoList extends AbstractTodoList
+class TodoList extends AbstractTodoList implements \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -40,7 +40,7 @@ class TodoList extends AbstractTodoList
      *
      * @var Task[]
      */
-    protected $tasks;
+    protected $tasks = array();
 
     /**
      * TodoList constructor.
@@ -83,4 +83,18 @@ class TodoList extends AbstractTodoList
     {
         $this->tasks = $tasks;
     }
+
+    /**
+     * @return array|mixed
+     */
+    public function jsonSerialize()
+    {
+        return array(
+            'id'    => $this->id,
+            'title' => $this->title,
+            'tasks' => $this->tasks
+        );
+    }
+
+
 }

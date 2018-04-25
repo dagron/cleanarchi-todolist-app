@@ -58,6 +58,9 @@ class ListController extends Controller
 
         $form->handleRequest($request);
 
+        // @todo block_name problem? :(
+        $form->submit($request->request->all());
+
         // json pre-formatting
         $data = ['success' => false, 'errors' => [], 'list' => null];
 
@@ -69,8 +72,6 @@ class ListController extends Controller
             return new JsonResponse($data, 417); // expectation failed
         }
 
-        dump($form->getData());
-
         try {
             $todolist = $form->getData();
             $createResponse = $createListUseCase->execute(new CreateListRequest($todolist->getTitle()));
@@ -78,7 +79,7 @@ class ListController extends Controller
             $data['list'] = $createResponse->getTodoList();
         } catch(\Exception $exp) {
             $data['errors'][] = $exp->getMessage();
-            return new JsonResponse($data, 500); // server error
+            return new JsonResponse($data, 417); // server error
         }
 
         return new JsonResponse($data, 200);
