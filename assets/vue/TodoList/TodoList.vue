@@ -1,6 +1,6 @@
 <template>
-    <li class="todolist four columns">
-        <h3>{{ list.title }}</h3>
+    <li class="todolist six columns">
+        <h3><span class="u-pull-right"><a href="#" class="todolist-remove">x</a></span> {{ list.title }}</h3>
         <ul class="tasks" v-if="list.tasks">
             <task v-for="task in list.tasks"
                   :task="task"
